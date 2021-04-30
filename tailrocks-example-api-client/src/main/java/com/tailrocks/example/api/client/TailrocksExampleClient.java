@@ -1,4 +1,7 @@
-// FIXME rename this package
+/*
+ * FIXME replace with the text from your license
+ * The text of the license.
+ */
 package com.tailrocks.example.api.client;
 
 import com.google.protobuf.StringValue;

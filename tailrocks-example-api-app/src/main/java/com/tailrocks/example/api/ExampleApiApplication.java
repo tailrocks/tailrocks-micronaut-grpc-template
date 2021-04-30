@@ -1,4 +1,7 @@
-// FIXME rename this package
+/*
+ * FIXME replace with the text from your license
+ * The text of the license.
+ */
 package com.tailrocks.example.api;
 
 import com.tailrocks.example.jooq.tables.records.PaymentMethodRecord;

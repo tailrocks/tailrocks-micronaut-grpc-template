@@ -2,10 +2,7 @@ plugins {
     java
     idea
     `maven-publish`
-    // TODO not working with https://docs.gradle.org/current/userguide/configuration_cache.html
-    /*
     id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
-     */
     id("com.gorylenko.gradle-git-properties") version Versions.gradleGitPropertiesPlugin apply false
 }
 
@@ -19,10 +16,7 @@ java {
 
 allprojects {
     apply(plugin = "idea")
-    // TODO not working with https://docs.gradle.org/current/userguide/configuration_cache.html
-    /*
     apply(plugin = "com.diffplug.spotless")
-    */
 
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
 
@@ -35,19 +29,20 @@ allprojects {
         }
     }
 
-    // TODO not working with https://docs.gradle.org/current/userguide/configuration_cache.html
-    /*
     spotless {
         java {
+            licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
             removeUnusedImports()
             trimTrailingWhitespace()
             endWithNewline()
+        }
+        kotlin {
+            licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
         }
         kotlinGradle {
             ktlint()
         }
     }
-    */
 }
 
 subprojects {

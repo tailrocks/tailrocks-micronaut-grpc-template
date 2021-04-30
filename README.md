@@ -8,6 +8,7 @@ application structure and best practices that we use for creating such applicati
 
 1. Click on `Use this template` button in GitHub page to create your own repository based on this template. After that
 go through `FIXME` label in the comments and replace with correct value.
+2. Rename all modules to your project name. And please don't forget to rename java and kotlin packages as well.
 
 ## License
 

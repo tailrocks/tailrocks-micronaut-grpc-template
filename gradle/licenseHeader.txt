@@ -1,0 +1,4 @@
+/*
+ * FIXME replace with the text from your license
+ * The text of the license.
+ */
