@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package com.tailrocks.example.grpc.v1.payment.method;
+
+import "google/protobuf/wrappers.proto";
+import "validate/validate.proto";
+
+option java_multiple_files = true;
+
+service PaymentMethodService {
+  // Find payment method list by criteria.
+  rpc find (FindPaymentMethodRequest) returns (PaymentMethodListResponse);
+
+  // Create list of payment methods by inputs.
+  rpc create (CreatePaymentMethodRequest) returns (PaymentMethodListResponse);
+}
+
+/*
+ * REQUESTS
+ */
+
+message FindPaymentMethodRequest {
+  // List of criteria items.
+  repeated Criteria criteria = 1;
+
+  message Criteria {
+    // The account id.
+    repeated uint64 account_id = 1;
+    // The card number.
+    repeated string number = 2;
+  }
+}
+
+message CreatePaymentMethodRequest {
+  // Input items.
+  repeated PaymentMethodInput item = 1 [
+    (validate.rules).repeated.min_items = 1
+  ];
+}
+
+/*
+ * INPUTS
+ */
+
+message PaymentMethodInput {
+  // The account id.
+  google.protobuf.UInt64Value account_id = 1 [
+    (validate.rules).message.required = true,
+    (validate.rules).uint64.gt = 0
+  ];
+
+  // The card details.
+  PaymentMethodCardInput card = 2;
+}
+
+message PaymentMethodCardInput {
+  // The card brand.
+  PaymentMethodCardBrand brand = 1;
+
+  // The card number.
+  google.protobuf.StringValue number = 2 [
+    (validate.rules).message.required = true
+  ];
+
+  // The card expiration year, 4 digits.
+  google.protobuf.UInt32Value expiration_year = 3 [
+    (validate.rules).message.required = true,
+    (validate.rules).uint32.gt = 0
+  ];
+
+  // The card expiration month, 2 digits (1-12).
+  google.protobuf.UInt32Value expiration_month = 4 [
+    (validate.rules).message.required = true,
+    (validate.rules).uint32.gte = 1,
+    (validate.rules).uint32.lte = 12
+  ];
+
+  // Card security code.
+  google.protobuf.UInt32Value cvc = 5 [
+    (validate.rules).message.required = true,
+    (validate.rules).uint32.gte = 0
+  ];
+
+  // The cardholder name.
+  google.protobuf.StringValue card_holder_name = 6 [
+    (validate.rules).message.required = true
+  ];
+}
+
+/*
+ * RESPONSES
+ */
+
+message PaymentMethodListResponse {
+  // Payment Method list.
+  repeated PaymentMethod item = 1;
+}
+
+/*
+ * ENTITIES
+ */
+
+message PaymentMethod {
+  // Unique identifier for the object.
+  uint64 id = 1;
+  // The account id.
+  uint64 account_id = 2;
+  // The card details.
+  PaymentMethodCard card = 3;
+}
+
+message PaymentMethodCard {
+  // The card brand.
+  PaymentMethodCardBrand brand = 1;
+  // The card number. Masked. Normally only 4 last digits are visible.
+  string number = 2;
+  // The card expiration year, 4 digits.
+  uint32 expiration_year = 3;
+  // The card expiration month, 2 digits (1-12).
+  uint32 expiration_month = 4;
+  // The cardholder name.
+  string card_holder_name = 5;
+}
+
+/*
+ * ENUMS
+ */
+
+enum PaymentMethodCardBrand {
+  PAYMENT_METHOD_CARD_BRAND_UNSPECIFIED = 0;
+  PAYMENT_METHOD_CARD_BRAND_VISA = 1;
+  PAYMENT_METHOD_CARD_BRAND_MASTERCARD = 2;
+}

@@ -1,0 +1,38 @@
+micronaut:
+  application:
+    # FIXME replace with microservice name, for example: tailrocks-payment-api
+    name: tailrocks-example-api
+  server:
+    # FIXME replace with real HTTP port
+    port: 6000
+    cors:
+      enabled: true
+datasources:
+  default:
+    driver-class-name: org.postgresql.Driver
+    # FIXME change database name, for example: tailrocks_payment_dev
+    url: jdbc:postgresql://127.0.0.1:19001/tailrocks_example_dev
+    username: postgres
+    password: root
+flyway:
+  datasources:
+    default:
+      enabled: true
+    testing:
+      enabled: true
+      # FIXME change database name, for example: tailrocks_payment_dev
+      url: jdbc:postgresql://127.0.0.1:19001/tailrocks_example_dev?currentSchema=test
+      username: postgres
+      password: root
+grpc:
+  server:
+    # FIXME replace with real gRPC port
+    port: 16000
+  client:
+    plaintext: true
+    max-retry-attempts: 10
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: anonymous
