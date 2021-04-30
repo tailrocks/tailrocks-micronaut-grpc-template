@@ -1,3 +1,4 @@
+// FIXME rename this package
 package com.tailrocks.example.api
 
 import com.tailrocks.example.api.client.TailrocksExampleClient
