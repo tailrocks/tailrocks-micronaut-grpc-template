@@ -20,7 +20,8 @@ allprojects {
 
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
 
-    group = "com.tailrocks.api"
+    // FIXME replace with your company's package
+    group = "com.tailrocks"
 
     idea {
         module {
