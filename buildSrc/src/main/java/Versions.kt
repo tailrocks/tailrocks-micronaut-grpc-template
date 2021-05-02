@@ -53,4 +53,8 @@ object Versions {
 
     const val tailrocksExampleJooq = "1.0.0"
 
+    // Project
+
+    const val tailrocksExample = "1.0.0"
+
 }

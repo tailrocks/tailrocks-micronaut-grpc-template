@@ -2,6 +2,8 @@ plugins {
     id("io.micronaut.library") version Versions.gradleMicronautPlugin
 }
 
+version = Versions.tailrocksExample
+
 micronaut {
     version(Versions.micronaut)
     processing {

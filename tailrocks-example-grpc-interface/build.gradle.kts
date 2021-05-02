@@ -9,6 +9,8 @@ plugins {
     id("com.google.protobuf") version Versions.gradleProtobufPlugin
 }
 
+version = Versions.tailrocksExample
+
 java {
     withJavadocJar()
     withSourcesJar()
