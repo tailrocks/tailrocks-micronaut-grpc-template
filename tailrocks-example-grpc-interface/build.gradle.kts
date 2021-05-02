@@ -6,7 +6,6 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
-    `maven-publish`
     id("com.google.protobuf") version Versions.gradleProtobufPlugin
 }
 

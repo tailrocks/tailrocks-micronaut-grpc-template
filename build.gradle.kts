@@ -21,7 +21,7 @@ allprojects {
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
 
     // FIXME replace with your company's package
-    group = "com.tailrocks"
+    group = "com.tailrocks.example"
 
     idea {
         module {
@@ -46,8 +46,17 @@ allprojects {
     }
 }
 
+val publishingProjects = setOf(
+    "tailrocks-example-api-client",
+    "tailrocks-example-grpc-interface"
+)
+
 subprojects {
     apply(plugin = "java")
+    if (publishingProjects.contains(project.name)) {
+        apply(plugin = "java-library")
+        apply(plugin = "maven-publish")
+    }
 
     java {
         toolchain {
@@ -58,8 +67,18 @@ subprojects {
         withSourcesJar()
     }
 
-    dependencies {
-        // SpotBugs
-        implementation("com.github.spotbugs:spotbugs-annotations:${Versions.spotbugs}")
+    if (publishingProjects.contains(project.name)) {
+        publishing {
+            publications {
+                create<MavenPublication>("mavenJava") {
+                    from(components["java"])
+                    versionMapping {
+                        allVariants {
+                            fromResolutionResult()
+                        }
+                    }
+                }
+            }
+        }
     }
 }
