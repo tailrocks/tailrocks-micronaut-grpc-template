@@ -1,0 +1,6 @@
+micronaut:
+  server:
+    port: ${random.port}
+grpc:
+  server:
+    port: ${random.port}
