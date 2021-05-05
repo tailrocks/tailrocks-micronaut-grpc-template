@@ -4,7 +4,6 @@
  */
 package com.tailrocks.example.api.test;
 
-import com.tailrocks.example.api.client.TenantClientInterceptor;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodServiceGrpc;
 import io.envoyproxy.pgv.ReflectiveValidatorIndex;
 import io.envoyproxy.pgv.ValidatorIndex;
@@ -20,7 +19,6 @@ public class Clients {
 
     // Create a validator index that reflectively loads generated validators
     private final ValidatorIndex index = new ReflectiveValidatorIndex();
-    private final String tenant = "testing";
 
     @Bean
     public PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub(
@@ -28,7 +26,6 @@ public class Clients {
     ) {
         return PaymentMethodServiceGrpc
                 .newBlockingStub(channel)
-                .withOption(TenantClientInterceptor.TENANT_OPTION, tenant)
                 .withInterceptors(new ValidatingClientInterceptor(index));
     }
 

@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Singleton
 // FIXME rename to match the name of microservice, for example: TailrocksPaymentClient
-public class TailrocksExampleClient {
+public class TailrocksExampleClient extends AbstractClient {
 
     private final PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub;
 
@@ -32,30 +32,46 @@ public class TailrocksExampleClient {
     }
 
     public Optional<PaymentMethod> findByCardNumber(long accountId, String cardNumber) {
-        return returnFirst(findByCardNumberWithResponse(accountId, cardNumber));
+        return findByCardNumber(null, accountId, cardNumber);
+    }
+
+    public Optional<PaymentMethod> findByCardNumber(String tenant, long accountId, String cardNumber) {
+        return returnFirst(findByCardNumberWithResponse(tenant, accountId, cardNumber));
     }
 
     public PaymentMethodListResponse findByCardNumberWithResponse(long accountId, String cardNumber) {
-        return paymentMethodServiceBlockingStub.find(
-                FindPaymentMethodRequest.newBuilder()
-                        .addCriteria(FindPaymentMethodRequest.Criteria.newBuilder()
-                                .addAccountId(accountId)
-                                .addNumber(cardNumber)
-                                .build())
-                        .build()
+        return findByCardNumberWithResponse(null, accountId, cardNumber);
+    }
+
+    public PaymentMethodListResponse findByCardNumberWithResponse(String tenant, long accountId, String cardNumber) {
+        return paymentMethodServiceBlockingStub
+                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
+                .find(
+                        FindPaymentMethodRequest.newBuilder()
+                                .addCriteria(FindPaymentMethodRequest.Criteria.newBuilder()
+                                        .addAccountId(accountId)
+                                        .addNumber(cardNumber)
+                                        .build())
+                                .build()
+                );
+    }
+
+    public PaymentMethod createPaymentMethod(
+            long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc, int expirationYear,
+            int expirationMonth, String cardHolderName
+    ) {
+        return createPaymentMethod(
+                null, tailrocksAccountId, cardBrand, cardNumber, cvc, expirationYear, expirationMonth,
+                cardHolderName
         );
     }
 
     public PaymentMethod createPaymentMethod(
-            long tailrocksAccountId,
-            PaymentMethodCardBrand cardBrand,
-            String cardNumber,
-            int cvc,
-            int expirationYear,
-            int expirationMonth,
-            String cardHolderName
+            String tenant, long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
+            int expirationYear, int expirationMonth, String cardHolderName
     ) {
         return createPaymentMethodWithResponse(
+                tenant,
                 tailrocksAccountId,
                 cardBrand,
                 cardNumber,
@@ -67,33 +83,46 @@ public class TailrocksExampleClient {
     }
 
     public PaymentMethodListResponse createPaymentMethodWithResponse(
-            long tailrocksAccountId,
-            PaymentMethodCardBrand cardBrand,
-            String cardNumber,
-            int cvc,
-            int expirationYear,
-            int expirationMonth,
-            String cardHolderName
+            long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc, int expirationYear,
+            int expirationMonth, String cardHolderName
     ) {
-        return paymentMethodServiceBlockingStub.create(
-                CreatePaymentMethodRequest.newBuilder()
-                        .addItem(
-                                PaymentMethodInput.newBuilder()
-                                        .setAccountId(UInt64Value.of(tailrocksAccountId))
-                                        .setCard(
-                                                PaymentMethodCardInput.newBuilder()
-                                                        .setBrand(cardBrand)
-                                                        .setNumber(StringValue.of(cardNumber))
-                                                        .setCvc(UInt32Value.of(cvc))
-                                                        .setExpirationYear(UInt32Value.of(expirationYear))
-                                                        .setExpirationMonth(UInt32Value.of(expirationMonth))
-                                                        .setCardHolderName(StringValue.of(cardHolderName))
-                                                        .build()
-                                        )
-                                        .build()
-                        )
-                        .build()
+        return createPaymentMethodWithResponse(
+                null,
+                tailrocksAccountId,
+                cardBrand,
+                cardNumber,
+                cvc,
+                expirationYear,
+                expirationMonth,
+                cardHolderName
         );
+    }
+
+    public PaymentMethodListResponse createPaymentMethodWithResponse(
+            String tenant, long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
+            int expirationYear, int expirationMonth, String cardHolderName
+    ) {
+        return paymentMethodServiceBlockingStub
+                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
+                .create(
+                        CreatePaymentMethodRequest.newBuilder()
+                                .addItem(
+                                        PaymentMethodInput.newBuilder()
+                                                .setAccountId(UInt64Value.of(tailrocksAccountId))
+                                                .setCard(
+                                                        PaymentMethodCardInput.newBuilder()
+                                                                .setBrand(cardBrand)
+                                                                .setNumber(StringValue.of(cardNumber))
+                                                                .setCvc(UInt32Value.of(cvc))
+                                                                .setExpirationYear(UInt32Value.of(expirationYear))
+                                                                .setExpirationMonth(UInt32Value.of(expirationMonth))
+                                                                .setCardHolderName(StringValue.of(cardHolderName))
+                                                                .build()
+                                                )
+                                                .build()
+                                )
+                                .build()
+                );
     }
 
     private Optional<PaymentMethod> returnFirst(PaymentMethodListResponse response) {
