@@ -5,8 +5,6 @@ micronaut:
   server:
     # FIXME replace with real HTTP port
     port: 6000
-    cors:
-      enabled: true
 datasources:
   default:
     driver-class-name: org.postgresql.Driver
