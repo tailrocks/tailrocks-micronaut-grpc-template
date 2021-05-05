@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 @MicronautTest(transactional = false)
-class PaymentMethodServiceTest(
+class PaymentMethodServiceTests(
     private val tailrocksExampleClient: TailrocksExampleClient
 ) {
 
