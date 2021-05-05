@@ -2,7 +2,7 @@ object Versions {
 
     // Languages
 
-    const val kotlin = "1.4.32"
+    const val kotlin = "1.5.0"
 
     // Gradle plugins
 
@@ -44,7 +44,7 @@ object Versions {
 
     const val mapstruct = "1.4.2.Final"
     const val pgv = "0.4.1"
-    const val kotest = "4.4.3"
+    const val kotest = "4.5.0"
 
     const val jambalayaChecks = "0.3.0"
     const val jambalayaMapstructProcessor = "0.2.1"
