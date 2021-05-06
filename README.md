@@ -12,5 +12,5 @@ go through `FIXME` label in the comments and replace with correct value.
 
 ## License
 
-tailrocks-micronaut-grpc-template is available under the [MIT license](https://opensource.org/licenses/MIT).
+`tailrocks-micronaut-grpc-template` is available under the [MIT license](https://opensource.org/licenses/MIT).
 See [LICENSE](LICENSE) for the full license text.
