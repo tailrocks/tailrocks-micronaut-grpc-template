@@ -57,3 +57,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         javaParameters = true
     }
 }
+
+tasks {
+    "run" { enabled = false }
+    "runShadow" { enabled = false }
+    "dockerBuild" { enabled = false }
+    "dockerBuildNative" { enabled = false }
+    "nativeImage" { enabled = false }
+}
