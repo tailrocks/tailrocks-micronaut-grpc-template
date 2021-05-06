@@ -46,6 +46,7 @@ allprojects {
     }
 }
 
+// FIXME replace with modules with correct name
 val publishingProjects = setOf(
     "tailrocks-example-api-client",
     "tailrocks-example-grpc-interface"
