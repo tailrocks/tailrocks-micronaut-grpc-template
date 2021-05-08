@@ -21,5 +21,6 @@ dependencies {
 }
 
 application {
+    // FIXME replace with real class name
     mainClass.set("com.tailrocks.example.api.ExampleApiApplication")
 }
