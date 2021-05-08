@@ -14,6 +14,7 @@ micronaut {
 
 dependencies {
     // subprojects
+    // FIXME replace with real module name
     api(project(":tailrocks-example-grpc-interface"))
 
     // tailrocks

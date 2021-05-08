@@ -16,6 +16,7 @@ micronaut {
 
 dependencies {
     // subprojects
+    // FIXME replace with real module name
     implementation(project(":tailrocks-example-api"))
 }
 
