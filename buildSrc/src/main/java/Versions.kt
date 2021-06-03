@@ -2,15 +2,15 @@ object Versions {
 
     // Languages
 
-    const val kotlin = "1.5.0"
+    const val kotlin = "1.5.10"
 
     // Gradle plugins
 
     // https://plugins.gradle.org/plugin/com.github.ben-manes.versions
-    const val gradleVersionsPlugin = "0.38.0"
+    const val gradleVersionsPlugin = "0.39.0"
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    const val gradleSpotlessPlugin = "5.12.4"
+    const val gradleSpotlessPlugin = "5.12.5"
 
     // https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
     const val gradleGitPropertiesPlugin = "2.3.1"
@@ -27,10 +27,10 @@ object Versions {
     // Libraries
 
     // REMEMBER update micronautVersion in gradle.properties as well
-    const val micronaut = "2.5.1"
+    const val micronaut = "2.5.5"
 
     // UPDATE together with Micronaut
-    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/2.5.1/micronaut-bom-2.5.1.pom
+    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/2.5.5/micronaut-bom-2.5.5.pom
     // https://repo1.maven.org/maven2/io/micronaut/sql/micronaut-jooq/3.4.0/micronaut-jooq-3.4.0.pom
     // https://repo1.maven.org/maven2/io/grpc/grpc-bom/1.33.1/grpc-bom-1.33.1.pom
     // https://repo1.maven.org/maven2/io/grpc/grpc-protobuf/1.33.1/grpc-protobuf-1.33.1.pom
@@ -44,7 +44,7 @@ object Versions {
 
     const val mapstruct = "1.4.2.Final"
     const val pgv = "0.4.1"
-    const val kotest = "4.5.0"
+    const val kotest = "4.6.0"
 
     const val jambalayaChecks = "0.3.0"
     const val jambalayaMapstructProcessor = "0.2.1"
