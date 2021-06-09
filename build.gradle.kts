@@ -44,20 +44,16 @@ allprojects {
             ktlint()
         }
     }
-}
 
-// FIXME replace with modules with correct name
-val publishingProjects = setOf(
-    "tailrocks-example-api-client",
-    "tailrocks-example-grpc-interface"
-)
+    tasks.withType<JavaCompile> {
+        if (javaVersion >= 9) {
+            options.release.set(javaVersion)
+        }
+    }
+}
 
 subprojects {
     apply(plugin = "java")
-    if (publishingProjects.contains(project.name)) {
-        apply(plugin = "java-library")
-        apply(plugin = "maven-publish")
-    }
 
     java {
         toolchain {
@@ -68,7 +64,7 @@ subprojects {
         withSourcesJar()
     }
 
-    if (publishingProjects.contains(project.name)) {
+    plugins.withId("maven-publish") {
         publishing {
             publications {
                 create<MavenPublication>("mavenJava") {

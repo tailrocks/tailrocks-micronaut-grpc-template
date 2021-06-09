@@ -1,4 +1,6 @@
 plugins {
+    `java-library`
+    `maven-publish`
     id("io.micronaut.library") version Versions.gradleMicronautPlugin
 }
 
