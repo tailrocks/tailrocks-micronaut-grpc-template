@@ -6,7 +6,6 @@ package com.tailrocks.example.api.grpc;
 
 import com.tailrocks.example.api.mapper.PaymentMethodMapper;
 import com.tailrocks.example.api.repository.PaymentMethodRepository;
-import com.tailrocks.example.api.tenant.Tenant;
 import com.tailrocks.example.grpc.v1.payment.method.CreatePaymentMethodRequest;
 import com.tailrocks.example.grpc.v1.payment.method.FindPaymentMethodRequest;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethod;
@@ -19,7 +18,6 @@ import io.grpc.stub.StreamObserver;
 import javax.inject.Singleton;
 import java.util.List;
 
-import static com.tailrocks.example.api.grpc.interceptor.TenantServerInterceptor.TENANT_ID;
 import static java.util.stream.Collectors.toList;
 
 @Singleton
@@ -39,7 +37,7 @@ public class PaymentMethodGrpcEndpoint extends PaymentMethodServiceGrpc.PaymentM
     @Override
     public void find(FindPaymentMethodRequest request,
                      StreamObserver<PaymentMethodListResponse> responseObserver) {
-        List<PaymentMethod> items = paymentMethodRepository.find(TENANT_ID.get(), request).stream()
+        List<PaymentMethod> items = paymentMethodRepository.find(request).stream()
                 .map(paymentMethodMapper::toPaymentMethod)
                 .collect(toList());
 
@@ -53,7 +51,7 @@ public class PaymentMethodGrpcEndpoint extends PaymentMethodServiceGrpc.PaymentM
     public void create(CreatePaymentMethodRequest request,
                        StreamObserver<PaymentMethodListResponse> responseObserver) {
         List<PaymentMethod> items = request.getItemList().stream()
-                .map(it -> findOrCreate(TENANT_ID.get(), it))
+                .map(this::findOrCreate)
                 .map(paymentMethodMapper::toPaymentMethod)
                 .collect(toList());
 
@@ -63,12 +61,11 @@ public class PaymentMethodGrpcEndpoint extends PaymentMethodServiceGrpc.PaymentM
         responseObserver.onCompleted();
     }
 
-    public PaymentMethodRecord findOrCreate(Tenant tenant, PaymentMethodInput it) {
+    public PaymentMethodRecord findOrCreate(PaymentMethodInput it) {
         return paymentMethodRepository.findByAccountIdAndCardNumber(
-                tenant,
                 it.getAccountId().getValue(),
                 it.getCard().getNumber().getValue()
-        ).orElseGet(() -> paymentMethodRepository.create(tenant, it));
+        ).orElseGet(() -> paymentMethodRepository.create(it));
     }
 
 }

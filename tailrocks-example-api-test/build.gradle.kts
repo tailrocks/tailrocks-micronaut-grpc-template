@@ -42,6 +42,9 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
+    // JUnit
+    implementation("org.junit.jupiter:junit-jupiter-api")
+
     // Jackson
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 }

@@ -13,7 +13,6 @@ import com.tailrocks.example.grpc.v1.payment.method.PaymentMethod;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodInput;
-import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodListResponse;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodServiceGrpc;
 
 import javax.inject.Singleton;
@@ -21,7 +20,7 @@ import java.util.Optional;
 
 @Singleton
 // FIXME rename to match the name of microservice, for example: TailrocksPaymentClient
-public class TailrocksExampleClient extends AbstractClient {
+public class TailrocksExampleClient {
 
     private final PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub;
 
@@ -32,20 +31,7 @@ public class TailrocksExampleClient extends AbstractClient {
     }
 
     public Optional<PaymentMethod> findByCardNumber(long accountId, String cardNumber) {
-        return findByCardNumber(null, accountId, cardNumber);
-    }
-
-    public Optional<PaymentMethod> findByCardNumber(String tenant, long accountId, String cardNumber) {
-        return returnFirst(findByCardNumberWithResponse(tenant, accountId, cardNumber));
-    }
-
-    public PaymentMethodListResponse findByCardNumberWithResponse(long accountId, String cardNumber) {
-        return findByCardNumberWithResponse(null, accountId, cardNumber);
-    }
-
-    public PaymentMethodListResponse findByCardNumberWithResponse(String tenant, long accountId, String cardNumber) {
         return paymentMethodServiceBlockingStub
-                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
                 .find(
                         FindPaymentMethodRequest.newBuilder()
                                 .addCriteria(FindPaymentMethodRequest.Criteria.newBuilder()
@@ -53,57 +39,15 @@ public class TailrocksExampleClient extends AbstractClient {
                                         .addNumber(cardNumber)
                                         .build())
                                 .build()
-                );
+                )
+                .getItemList().stream().findFirst();
     }
 
     public PaymentMethod createPaymentMethod(
-            long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc, int expirationYear,
-            int expirationMonth, String cardHolderName
-    ) {
-        return createPaymentMethod(
-                null, tailrocksAccountId, cardBrand, cardNumber, cvc, expirationYear, expirationMonth,
-                cardHolderName
-        );
-    }
-
-    public PaymentMethod createPaymentMethod(
-            String tenant, long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
-            int expirationYear, int expirationMonth, String cardHolderName
-    ) {
-        return createPaymentMethodWithResponse(
-                tenant,
-                tailrocksAccountId,
-                cardBrand,
-                cardNumber,
-                cvc,
-                expirationYear,
-                expirationMonth,
-                cardHolderName
-        ).getItem(0);
-    }
-
-    public PaymentMethodListResponse createPaymentMethodWithResponse(
-            long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc, int expirationYear,
-            int expirationMonth, String cardHolderName
-    ) {
-        return createPaymentMethodWithResponse(
-                null,
-                tailrocksAccountId,
-                cardBrand,
-                cardNumber,
-                cvc,
-                expirationYear,
-                expirationMonth,
-                cardHolderName
-        );
-    }
-
-    public PaymentMethodListResponse createPaymentMethodWithResponse(
-            String tenant, long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
+            long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
             int expirationYear, int expirationMonth, String cardHolderName
     ) {
         return paymentMethodServiceBlockingStub
-                .withOption(TenantClientInterceptor.TENANT_OPTION, requireTenant(tenant))
                 .create(
                         CreatePaymentMethodRequest.newBuilder()
                                 .addItem(
@@ -122,15 +66,8 @@ public class TailrocksExampleClient extends AbstractClient {
                                                 .build()
                                 )
                                 .build()
-                );
-    }
-
-    private Optional<PaymentMethod> returnFirst(PaymentMethodListResponse response) {
-        if (response.getItemCount() > 0) {
-            return Optional.of(response.getItem(0));
-        } else {
-            return Optional.empty();
-        }
+                )
+                .getItem(0);
     }
 
 }

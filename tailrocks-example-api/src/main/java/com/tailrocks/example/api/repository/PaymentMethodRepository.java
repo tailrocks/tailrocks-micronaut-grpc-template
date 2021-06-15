@@ -5,7 +5,6 @@
 package com.tailrocks.example.api.repository;
 
 import com.tailrocks.example.api.mapper.PaymentMethodMapper;
-import com.tailrocks.example.api.tenant.Tenant;
 import com.tailrocks.example.grpc.v1.payment.method.FindPaymentMethodRequest;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodInput;
 import com.tailrocks.example.jooq.tables.records.PaymentMethodRecord;
@@ -43,12 +42,10 @@ public class PaymentMethodRepository extends AbstractRepository {
     }
 
     @ReadOnly
-    public Optional<PaymentMethodRecord> findByAccountIdAndCardNumber(@NonNull Tenant tenant, long accountId,
-                                                                      @NonNull String cardNumber) {
-        checkNotNull(tenant, "tenant");
+    public Optional<PaymentMethodRecord> findByAccountIdAndCardNumber(long accountId, @NonNull String cardNumber) {
         checkNotBlank(cardNumber, "cardNumber");
 
-        return getDslContext(tenant)
+        return getDslContext()
                 .selectFrom(PAYMENT_METHOD)
                 .where(PAYMENT_METHOD.ACCOUNT_ID.eq(accountId))
                 .and(PAYMENT_METHOD.CARD_NUMBER.eq(cardNumber))
@@ -56,27 +53,22 @@ public class PaymentMethodRepository extends AbstractRepository {
     }
 
     @ReadOnly
-    public List<PaymentMethodRecord> find(@NonNull Tenant tenant, @NonNull FindPaymentMethodRequest request) {
-        checkNotNull(tenant, "tenant");
+    public List<PaymentMethodRecord> find(@NonNull FindPaymentMethodRequest request) {
         checkNotNull(request, "request");
 
-        return getDslContext(tenant)
+        return getDslContext()
                 .selectFrom(PAYMENT_METHOD)
                 .where(generateFindCondition(request.getCriteriaList()))
                 .fetch();
     }
 
     @Transactional
-    public PaymentMethodRecord create(
-            @NonNull Tenant tenant,
-            @NonNull PaymentMethodInput paymentMethodInput
-    ) {
-        checkNotNull(tenant, "tenant");
+    public PaymentMethodRecord create(@NonNull PaymentMethodInput paymentMethodInput) {
         checkNotNull(paymentMethodInput, "paymentMethodInput");
 
         PaymentMethodRecord item = paymentMethodMapper.toPaymentMethodRecord(
                 paymentMethodInput,
-                getDslContext(tenant).newRecord(PAYMENT_METHOD)
+                getDslContext().newRecord(PAYMENT_METHOD)
         );
 
         item.store();

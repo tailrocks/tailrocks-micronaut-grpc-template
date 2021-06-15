@@ -10,7 +10,7 @@ object Versions {
     const val gradleVersionsPlugin = "0.39.0"
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    const val gradleSpotlessPlugin = "5.12.5"
+    const val gradleSpotlessPlugin = "5.13.0"
 
     // https://plugins.gradle.org/plugin/com.gorylenko.gradle-git-properties
     const val gradleGitPropertiesPlugin = "2.3.1"
@@ -22,7 +22,7 @@ object Versions {
     const val gradleShadowPlugin = "7.0.0"
 
     // https://plugins.gradle.org/plugin/io.micronaut.application
-    const val gradleMicronautPlugin = "1.5.0"
+    const val gradleMicronautPlugin = "1.5.1"
 
     // Libraries
 
@@ -46,10 +46,12 @@ object Versions {
     const val pgv = "0.4.1"
     const val kotest = "4.6.0"
 
-    const val jambalayaChecks = "0.3.0"
-    const val jambalayaMapstructProcessor = "0.2.1"
-    const val jambalayaMicronautMapstructProtobuf = "0.2.0"
-    const val jambalayaProtobuf = "0.3.0"
+    const val jambalayaChecks = "0.4.0"
+    const val jambalayaMapstructProcessor = "0.3.0"
+    const val jambalayaMicronautMapstructProtobuf = "0.3.0"
+    const val jambalayaOpentelemetry = "0.2.0"
+    const val jambalayaProtobuf = "0.4.0"
+    const val jambalayaTenancy = "0.2.0"
 
     const val tailrocksExampleJooq = "1.0.0"
 

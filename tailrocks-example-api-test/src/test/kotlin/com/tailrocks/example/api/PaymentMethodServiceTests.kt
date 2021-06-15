@@ -5,21 +5,27 @@
 package com.tailrocks.example.api
 
 import com.tailrocks.example.api.client.TailrocksExampleClient
+import com.tailrocks.example.api.test.junit.MyExtension
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
+@ExtendWith(MyExtension::class)
 @MicronautTest(transactional = false)
 class PaymentMethodServiceTests(
     private val tailrocksExampleClient: TailrocksExampleClient
 ) {
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class CreatePaymentMethod {
 
         // given: payment method details
@@ -31,9 +37,10 @@ class PaymentMethodServiceTests(
         private val givenExpirationMonth = 6
         private val givenCardHolderName = "Gary Zub"
 
-        init {
+        @BeforeEach
+        fun init() {
             // when: create a payment method
-            val response = tailrocksExampleClient.createPaymentMethodWithResponse(
+            val paymentMethod = tailrocksExampleClient.createPaymentMethod(
                 givenAccountId,
                 givenCardBrand,
                 givenCardNumber,
@@ -44,8 +51,7 @@ class PaymentMethodServiceTests(
             )
 
             // then: a new payment method created
-            response.itemCount shouldBe 1
-            response.getItem(0).also {
+            paymentMethod.also {
                 it.id shouldBeGreaterThan 0
                 it.accountId shouldBe givenAccountId
                 it.card.brand shouldBe PaymentMethodCardBrand.PAYMENT_METHOD_CARD_BRAND_VISA
@@ -68,11 +74,11 @@ class PaymentMethodServiceTests(
         @Test
         fun `can find just created card`() {
             // when
-            val response = tailrocksExampleClient.findByCardNumberWithResponse(givenAccountId, givenCardNumber)
+            val card = tailrocksExampleClient.findByCardNumber(givenAccountId, givenCardNumber)
 
             // then: a one card will be returned
-            response.itemCount shouldBe 1
-            response.getItem(0).also {
+            card.isPresent.shouldBeTrue()
+            card.get().also {
                 it.id shouldBeGreaterThan 0
                 it.accountId shouldBe givenAccountId
                 it.card.brand shouldBe PaymentMethodCardBrand.PAYMENT_METHOD_CARD_BRAND_VISA
