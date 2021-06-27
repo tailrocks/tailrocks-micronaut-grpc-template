@@ -14,15 +14,22 @@ import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodServiceGrpc;
+import io.micronaut.context.annotation.Value;
 
 import javax.inject.Singleton;
 import java.util.Optional;
+
+import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
 
 @Singleton
 // FIXME rename to match the name of microservice, for example: TailrocksPaymentClient
 public class TailrocksExampleClient {
 
     private final PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub;
+
+    // FIXME replace with correct property
+    @Value("${tailrocks.example.default-tenant:}")
+    String defaultTenant;
 
     public TailrocksExampleClient(
             PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub
@@ -31,7 +38,7 @@ public class TailrocksExampleClient {
     }
 
     public Optional<PaymentMethod> findByCardNumber(long accountId, String cardNumber) {
-        return paymentMethodServiceBlockingStub
+        return callWithTenant(defaultTenant, () -> paymentMethodServiceBlockingStub
                 .find(
                         FindPaymentMethodRequest.newBuilder()
                                 .addCriteria(FindPaymentMethodRequest.Criteria.newBuilder()
@@ -40,14 +47,14 @@ public class TailrocksExampleClient {
                                         .build())
                                 .build()
                 )
-                .getItemList().stream().findFirst();
+                .getItemList().stream().findFirst());
     }
 
     public PaymentMethod createPaymentMethod(
             long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
             int expirationYear, int expirationMonth, String cardHolderName
     ) {
-        return paymentMethodServiceBlockingStub
+        return callWithTenant(defaultTenant, () -> paymentMethodServiceBlockingStub
                 .create(
                         CreatePaymentMethodRequest.newBuilder()
                                 .addItem(
@@ -67,7 +74,7 @@ public class TailrocksExampleClient {
                                 )
                                 .build()
                 )
-                .getItem(0);
+                .getItem(0));
     }
 
 }

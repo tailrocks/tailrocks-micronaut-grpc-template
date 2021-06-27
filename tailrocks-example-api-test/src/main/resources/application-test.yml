@@ -4,3 +4,7 @@ micronaut:
 grpc:
   server:
     port: ${random.port}
+tailrocks:
+  # FIXME replace with the name of the service, for example: payment
+  example:
+    default-tenant: testing

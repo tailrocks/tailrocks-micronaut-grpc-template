@@ -20,6 +20,9 @@ dependencies {
     // FIXME replace with real module name
     api(project(":tailrocks-example-grpc-interface"))
 
+    // Jambalaya
+    api("io.github.expatiat.jambalaya:jambalaya-tenancy:${Versions.jambalayaTenancy}")
+
     // Logback
     api("ch.qos.logback:logback-classic")
 }
