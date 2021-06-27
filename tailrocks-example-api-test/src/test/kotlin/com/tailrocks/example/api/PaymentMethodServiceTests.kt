@@ -5,7 +5,7 @@
 package com.tailrocks.example.api
 
 import com.tailrocks.example.api.client.TailrocksExampleClient
-import com.tailrocks.example.api.test.junit.MyExtension
+import com.tailrocks.example.api.test.junit.OpenTelemetryExtension
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.comparables.shouldBeGreaterThan
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
-@ExtendWith(MyExtension::class)
+@ExtendWith(OpenTelemetryExtension::class)
 @MicronautTest(transactional = false)
 class PaymentMethodServiceTests(
     private val tailrocksExampleClient: TailrocksExampleClient

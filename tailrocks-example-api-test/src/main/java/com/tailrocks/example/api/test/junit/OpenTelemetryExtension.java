@@ -14,12 +14,12 @@ import java.util.Map;
 /**
  * @author Alexey Zhokhov
  */
-public class MyExtension implements BeforeTestExecutionCallback, BeforeEachCallback, AfterEachCallback,
+public class OpenTelemetryExtension implements BeforeTestExecutionCallback, BeforeEachCallback, AfterEachCallback,
         AfterAllCallback {
 
     private final Map<String, Scope> scopes = new HashMap<>();
 
-    public MyExtension() {
+    public OpenTelemetryExtension() {
     }
 
     @Override
