@@ -28,7 +28,6 @@ public class MyExtension implements BeforeTestExecutionCallback, BeforeEachCallb
 
         var span = tracer
                 .spanBuilder(context.getRequiredTestMethod().getName())
-                .setNoParent()
                 .startSpan();
 
         System.out.println(context.getRequiredTestMethod().getName() + " TRACE ID: " + span.getSpanContext().getTraceId());
