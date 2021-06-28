@@ -44,6 +44,7 @@ dependencies {
 
     // JUnit
     implementation("org.junit.jupiter:junit-jupiter-api")
+    implementation("org.junit.jupiter:junit-jupiter-engine")
 
     // Jackson
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
