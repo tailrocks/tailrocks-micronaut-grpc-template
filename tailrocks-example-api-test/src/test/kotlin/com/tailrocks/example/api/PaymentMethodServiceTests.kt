@@ -5,10 +5,10 @@
 package com.tailrocks.example.api
 
 import com.tailrocks.example.api.client.TailrocksExampleClient
-import com.tailrocks.example.api.test.junit.OpenTelemetryExtension
-import com.tailrocks.example.api.test.junit.OpenTelemetryUtils.THEN
-import com.tailrocks.example.api.test.junit.OpenTelemetryUtils.WHEN_
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryExtension
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
