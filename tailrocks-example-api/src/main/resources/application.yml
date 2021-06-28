@@ -7,9 +7,9 @@ micronaut:
     port: 6000
 datasources:
   default:
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: io.opentelemetry.instrumentation.jdbc.OpenTelemetryDriver
     # FIXME change database name, for example: tailrocks_payment_dev
-    url: jdbc:postgresql://127.0.0.1:19001/tailrocks_example_dev
+    url: jdbc:otel:postgresql://127.0.0.1:19001/tailrocks_example_dev
     username: postgres
     password: root
 flyway:
