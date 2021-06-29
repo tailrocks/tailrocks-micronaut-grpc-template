@@ -28,7 +28,7 @@ public class TailrocksExampleClient {
     private final PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub;
 
     // FIXME replace with correct property
-    @Value("${tailrocks.example.default-tenant:}")
+    @Value("${tailrocks.client.example.default-tenant:}")
     String defaultTenant;
 
     public TailrocksExampleClient(
