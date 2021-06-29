@@ -15,6 +15,7 @@ import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodServiceGrpc;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.core.annotation.NonNull;
 
 import javax.inject.Singleton;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class TailrocksExampleClient {
         this.paymentMethodServiceBlockingStub = paymentMethodServiceBlockingStub;
     }
 
-    public Optional<PaymentMethod> findByCardNumber(long accountId, String cardNumber) {
+    public Optional<PaymentMethod> findByCardNumber(long accountId, @NonNull String cardNumber) {
         return callWithTenant(defaultTenant, () -> paymentMethodServiceBlockingStub
                 .find(
                         FindPaymentMethodRequest.newBuilder()
@@ -51,8 +52,8 @@ public class TailrocksExampleClient {
     }
 
     public PaymentMethod createPaymentMethod(
-            long tailrocksAccountId, PaymentMethodCardBrand cardBrand, String cardNumber, int cvc,
-            int expirationYear, int expirationMonth, String cardHolderName
+            long tailrocksAccountId, @NonNull PaymentMethodCardBrand cardBrand, @NonNull String cardNumber, int cvc,
+            int expirationYear, int expirationMonth, @NonNull String cardHolderName
     ) {
         return callWithTenant(defaultTenant, () -> paymentMethodServiceBlockingStub
                 .create(
