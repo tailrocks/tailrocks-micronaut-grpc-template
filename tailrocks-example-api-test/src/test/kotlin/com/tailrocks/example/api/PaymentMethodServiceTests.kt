@@ -20,8 +20,8 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
-@ExtendWith(OpenTelemetryExtension::class)
 @MicronautTest(transactional = false)
+@ExtendWith(OpenTelemetryExtension::class)
 class PaymentMethodServiceTests(
     private val tailrocksExampleClient: TailrocksExampleClient
 ) {

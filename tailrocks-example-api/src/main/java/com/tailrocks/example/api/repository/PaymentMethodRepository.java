@@ -79,7 +79,7 @@ public class PaymentMethodRepository extends AbstractRepository {
     }
 
     private Condition generateFindCondition(List<FindPaymentMethodRequest.Criteria> criteriaList) {
-        Condition result = DSL.noCondition();
+        var result = DSL.noCondition();
 
         for (FindPaymentMethodRequest.Criteria criteria : criteriaList) {
             result = result.or(generateCondition(criteria));
@@ -89,7 +89,7 @@ public class PaymentMethodRepository extends AbstractRepository {
     }
 
     private Condition generateCondition(FindPaymentMethodRequest.Criteria criteria) {
-        Condition result = noCondition();
+        var result = noCondition();
 
         if (criteria.getAccountIdCount() > 0) {
             result = result.and(PAYMENT_METHOD.ACCOUNT_ID.in(criteria.getAccountIdList()));
