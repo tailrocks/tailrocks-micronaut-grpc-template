@@ -33,7 +33,7 @@ dependencies {
     kaptTest("io.micronaut:micronaut-inject-java")
 
     // Jambalaya
-    api("io.github.expatiat.jambalaya:jambalaya-junit-opentelemetry:${Versions.jambalayaJunitOpentelemetry}")
+    implementation("io.github.expatiat.jambalaya:jambalaya-junit-opentelemetry:${Versions.jambalayaJunitOpentelemetry}")
 
     // PGV
     implementation("io.envoyproxy.protoc-gen-validate:pgv-java-grpc:${Versions.pgv}")
