@@ -23,7 +23,7 @@ public abstract class AbstractRepository {
     }
 
     protected DSLContext getDslContext() {
-        String tenant = getTenantOrThrow().getTenantByService(applicationName);
+        String tenant = getTenantOrThrow().getByService(applicationName);
         dslContext.setSchema(getSchema(tenant)).execute();
         return dslContext;
     }
