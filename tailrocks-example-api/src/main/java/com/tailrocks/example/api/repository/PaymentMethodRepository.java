@@ -8,6 +8,8 @@ import com.tailrocks.example.api.mapper.PaymentMethodMapper;
 import com.tailrocks.example.grpc.v1.payment.method.FindPaymentMethodRequest;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodInput;
 import com.tailrocks.example.jooq.tables.records.PaymentMethodRecord;
+import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
 import org.jooq.Condition;
@@ -27,17 +29,18 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 import static org.jooq.impl.DSL.noCondition;
 
 @Singleton
-public class PaymentMethodRepository extends AbstractRepository {
+public class PaymentMethodRepository extends AbstractTenantRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(PaymentMethodRepository.class);
 
     private final PaymentMethodMapper paymentMethodMapper;
 
     public PaymentMethodRepository(
+            @Property(name = "micronaut.application.name") String applicationName,
             DSLContext dslContext,
             PaymentMethodMapper paymentMethodMapper
     ) {
-        super(dslContext);
+        super(applicationName, dslContext);
         this.paymentMethodMapper = paymentMethodMapper;
     }
 
@@ -66,7 +69,7 @@ public class PaymentMethodRepository extends AbstractRepository {
     public PaymentMethodRecord create(@NonNull PaymentMethodInput paymentMethodInput) {
         checkNotNull(paymentMethodInput, "paymentMethodInput");
 
-        PaymentMethodRecord item = paymentMethodMapper.toPaymentMethodRecord(
+        var item = paymentMethodMapper.toPaymentMethodRecord(
                 paymentMethodInput,
                 getDslContext().newRecord(PAYMENT_METHOD)
         );

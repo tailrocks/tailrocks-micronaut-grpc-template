@@ -14,32 +14,52 @@ import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodInput;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodServiceGrpc;
-import io.micronaut.context.annotation.Value;
+import com.zhokhov.jambalaya.grpc.v1.tenant.DropTenantRequest;
+import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
+import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Optional;
 
+import static com.tailrocks.example.api.client.config.Constants.DEFAULT_TENANT;
+import static com.tailrocks.example.api.client.config.Constants.TENANT_SERVICE_NAME;
 import static com.zhokhov.jambalaya.tenancy.TenancyUtils.callWithTenant;
+import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantStringOrElse;
 
 @Singleton
 // FIXME rename to match the name of microservice, for example: TailrocksPaymentClient
 public class TailrocksExampleClient {
 
+    private final TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub;
     private final PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub;
 
-    // FIXME replace with correct property
-    @Value("${tailrocks.client.example.default-tenant:}")
-    String defaultTenant;
+    @Property(name = DEFAULT_TENANT) String defaultTenant;
 
     public TailrocksExampleClient(
+            @Named(TENANT_SERVICE_NAME) TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub,
             PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub
     ) {
+        this.tenantServiceBlockingStub = tenantServiceBlockingStub;
         this.paymentMethodServiceBlockingStub = paymentMethodServiceBlockingStub;
     }
 
-    public Optional<PaymentMethod> findByCardNumber(long accountId, @NonNull String cardNumber) {
-        return callWithTenant(defaultTenant, () -> paymentMethodServiceBlockingStub
+    public void provisionTenant(@NonNull String name) {
+        tenantServiceBlockingStub.provision(ProvisionTenantRequest.newBuilder()
+                .setName(StringValue.of(name))
+                .build());
+    }
+
+    public void dropTenant(@NonNull String name) {
+        tenantServiceBlockingStub.drop(DropTenantRequest.newBuilder()
+                .setName(StringValue.of(name))
+                .build());
+    }
+
+    public Optional<PaymentMethod> findPaymentMethodByCardNumber(long accountId, @NonNull String cardNumber) {
+        return callWithTenant(getTenantString(), () -> paymentMethodServiceBlockingStub
                 .find(
                         FindPaymentMethodRequest.newBuilder()
                                 .addCriteria(FindPaymentMethodRequest.Criteria.newBuilder()
@@ -55,7 +75,7 @@ public class TailrocksExampleClient {
             long tailrocksAccountId, @NonNull PaymentMethodCardBrand cardBrand, @NonNull String cardNumber, int cvc,
             int expirationYear, int expirationMonth, @NonNull String cardHolderName
     ) {
-        return callWithTenant(defaultTenant, () -> paymentMethodServiceBlockingStub
+        return callWithTenant(getTenantString(), () -> paymentMethodServiceBlockingStub
                 .create(
                         CreatePaymentMethodRequest.newBuilder()
                                 .addItem(
@@ -76,6 +96,10 @@ public class TailrocksExampleClient {
                                 .build()
                 )
                 .getItem(0));
+    }
+
+    private String getTenantString() {
+        return getTenantStringOrElse(defaultTenant);
     }
 
 }

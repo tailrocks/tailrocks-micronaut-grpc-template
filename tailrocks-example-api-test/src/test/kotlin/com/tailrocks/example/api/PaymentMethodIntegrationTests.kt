@@ -18,11 +18,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import java.util.*
+import java.lang.System.currentTimeMillis
 
 @MicronautTest(transactional = false)
 @ExtendWith(OpenTelemetryExtension::class)
-class PaymentMethodServiceTests(
+class PaymentMethodIntegrationTests(
     private val tailrocksExampleClient: TailrocksExampleClient
 ) {
 
@@ -31,7 +31,7 @@ class PaymentMethodServiceTests(
     inner class CreatePaymentMethod {
 
         // GIVEN: payment method details
-        private val givenAccountId = Date().time
+        private val givenAccountId = currentTimeMillis()
         private val givenCardBrand = PaymentMethodCardBrand.PAYMENT_METHOD_CARD_BRAND_VISA
         private val givenCardNumber = "1234567890"
         private val givenCvc = 1223
@@ -69,7 +69,7 @@ class PaymentMethodServiceTests(
         @Test
         fun `can not find unknown card number`() {
             val card = WHEN_ {
-                tailrocksExampleClient.findByCardNumber(givenAccountId, "123000")
+                tailrocksExampleClient.findPaymentMethodByCardNumber(givenAccountId, "123000")
             }
 
             THEN("an empty optional will be returned") {
@@ -80,7 +80,7 @@ class PaymentMethodServiceTests(
         @Test
         fun `can find just created card`() {
             val card = WHEN_ {
-                tailrocksExampleClient.findByCardNumber(givenAccountId, givenCardNumber)
+                tailrocksExampleClient.findPaymentMethodByCardNumber(givenAccountId, givenCardNumber)
             }
 
             THEN("a one card will be returned") {
