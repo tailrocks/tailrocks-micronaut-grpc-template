@@ -27,6 +27,9 @@ public class ExampleApiApplication {
     static {
         log.debug("Setting UTC time zone by default");
         TimeZone.setDefault(TimeZone.getTimeZone(ZoneOffset.UTC));
+
+        // TODO remove later
+        System.setProperty("otel.instrumentation.common.db-statement-sanitizer.enabled", "false");
     }
 
     public static void main(String[] args) {
