@@ -9,5 +9,5 @@ tailrocks:
     # FIXME replace with the name of the service, for example: payment
     example:
       default-tenant: testing
-      # identical value with value from io.micronaut.grpc.server.GrpcServerChannel.NAME
+      # io.micronaut.grpc.server.GrpcServerChannel.NAME
       grpc-channel: grpc-server
