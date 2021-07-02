@@ -25,21 +25,21 @@ public class Configuration {
 
     private final ValidatorIndex index = new ReflectiveValidatorIndex();
 
-    @Bean
-    public PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub(
-            @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
-    ) {
-        return PaymentMethodServiceGrpc
-                .newBlockingStub(channel)
-                .withInterceptors(new ValidatingClientInterceptor(index));
-    }
-
     @Singleton
     @Named(TENANT_SERVICE_NAME)
     public TenantServiceGrpc.TenantServiceBlockingStub tenantServiceBlockingStub(
             @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
     ) {
         return TenantServiceGrpc
+                .newBlockingStub(channel)
+                .withInterceptors(new ValidatingClientInterceptor(index));
+    }
+
+    @Bean
+    public PaymentMethodServiceGrpc.PaymentMethodServiceBlockingStub paymentMethodServiceBlockingStub(
+            @GrpcChannel(GRPC_CHANNEL) ManagedChannel channel
+    ) {
+        return PaymentMethodServiceGrpc
                 .newBlockingStub(channel)
                 .withInterceptors(new ValidatingClientInterceptor(index));
     }
