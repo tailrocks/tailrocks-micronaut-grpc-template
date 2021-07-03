@@ -6,7 +6,7 @@ package com.tailrocks.example.api
 
 import com.tailrocks.example.api.client.TailrocksExampleClient
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodCardBrand
-import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryExtension
+import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -17,11 +17,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import java.lang.System.currentTimeMillis
 
 @MicronautTest(transactional = false)
-@ExtendWith(OpenTelemetryExtension::class)
+@OpenTelemetry
 class PaymentMethodIntegrationTests(
     private val tailrocksExampleClient: TailrocksExampleClient
 ) {
