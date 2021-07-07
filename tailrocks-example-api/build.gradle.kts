@@ -33,7 +33,7 @@ dependencies {
     api("io.micronaut.data:micronaut-data-tx")
 
     // TODO replace with final version
-    api("io.micronaut.opentelemetry:micronaut-opentelemetry:1.0.0-SNAPSHOT")
+    api("io.github.expatiat.micronaut.opentelemetry:opentelemetry:0.1.0-SNAPSHOT")
 
     // MapStruct
     annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
