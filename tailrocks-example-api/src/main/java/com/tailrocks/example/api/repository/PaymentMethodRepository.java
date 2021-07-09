@@ -76,8 +76,8 @@ public class PaymentMethodRepository extends AbstractTenantRepository {
                 paymentMethodInput,
                 getDslContext().newRecord(PAYMENT_METHOD)
         );
-        item.setId(ObjectId.get().toHexString());
 
+        item.setId(ObjectId.get().toHexString());
         item.store();
 
         LOG.info("Created {}", item.getId());
