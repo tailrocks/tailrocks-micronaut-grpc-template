@@ -13,6 +13,7 @@ import com.zhokhov.jambalaya.tenancy.TenancyUtils.runWithTenant
 import io.grpc.StatusRuntimeException
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.bson.types.ObjectId
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.lang.System.currentTimeMillis
@@ -27,7 +28,7 @@ class TenantIntegrationTests constructor(
     fun `tenant provisioning`() {
         val tenantName = "test${currentTimeMillis()}"
 
-        val accountId = 123L
+        val accountId = ObjectId.get().toHexString()
         val cardNumber = "4000 0000 0000 0000"
 
         GIVEN("throws an error - tenant does not exist") {

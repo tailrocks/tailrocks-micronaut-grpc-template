@@ -12,6 +12,7 @@ import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
+import org.bson.types.ObjectId;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -45,7 +46,9 @@ public class PaymentMethodRepository extends AbstractTenantRepository {
     }
 
     @ReadOnly
-    public Optional<PaymentMethodRecord> findByAccountIdAndCardNumber(long accountId, @NonNull String cardNumber) {
+    public Optional<PaymentMethodRecord> findByAccountIdAndCardNumber(@NonNull String accountId,
+                                                                      @NonNull String cardNumber) {
+        checkNotBlank(accountId, "accountId");
         checkNotBlank(cardNumber, "cardNumber");
 
         return getDslContext()
@@ -73,6 +76,7 @@ public class PaymentMethodRepository extends AbstractTenantRepository {
                 paymentMethodInput,
                 getDslContext().newRecord(PAYMENT_METHOD)
         );
+        item.setId(ObjectId.get().toHexString());
 
         item.store();
 

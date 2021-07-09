@@ -42,6 +42,9 @@ dependencies {
     // PGV
     api("io.envoyproxy.protoc-gen-validate:pgv-java-grpc:${Versions.pgv}")
 
+    // BSON
+    api("org.mongodb:bson:${Versions.bson}")
+
     // Jambalaya
     annotationProcessor("io.github.expatiat.jambalaya:jambalaya-mapstruct-processor:${Versions.jambalayaMapstructProcessor}")
     api("io.github.expatiat.jambalaya:jambalaya-checks:${Versions.jambalayaChecks}")

@@ -10,14 +10,14 @@ import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetry
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.THEN
 import com.zhokhov.jambalaya.junit.opentelemetry.OpenTelemetryUtils.WHEN_
 import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.comparables.shouldBeGreaterThan
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.bson.types.ObjectId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.lang.System.currentTimeMillis
 
 @MicronautTest(transactional = false)
 @OpenTelemetry
@@ -30,7 +30,7 @@ class PaymentMethodIntegrationTests(
     inner class CreatePaymentMethod {
 
         // GIVEN: payment method details
-        private val givenAccountId = currentTimeMillis()
+        private val givenAccountId = ObjectId.get().toHexString()
         private val givenCardBrand = PaymentMethodCardBrand.PAYMENT_METHOD_CARD_BRAND_VISA
         private val givenCardNumber = "1234567890"
         private val givenCvc = 1223
@@ -54,7 +54,7 @@ class PaymentMethodIntegrationTests(
 
             THEN("a new payment method created") {
                 paymentMethod.also {
-                    it.id shouldBeGreaterThan 0
+                    it.id.shouldNotBeNull()
                     it.accountId shouldBe givenAccountId
                     it.card.brand shouldBe PaymentMethodCardBrand.PAYMENT_METHOD_CARD_BRAND_VISA
                     it.card.number shouldBe givenCardNumber
@@ -85,7 +85,7 @@ class PaymentMethodIntegrationTests(
             THEN("a one card will be returned") {
                 card.isPresent.shouldBeTrue()
                 card.get().also {
-                    it.id shouldBeGreaterThan 0
+                    it.id.shouldNotBeNull()
                     it.accountId shouldBe givenAccountId
                     it.card.brand shouldBe PaymentMethodCardBrand.PAYMENT_METHOD_CARD_BRAND_VISA
                     it.card.number shouldBe givenCardNumber

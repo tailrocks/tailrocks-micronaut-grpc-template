@@ -6,7 +6,6 @@ package com.tailrocks.example.api.client;
 
 import com.google.protobuf.StringValue;
 import com.google.protobuf.UInt32Value;
-import com.google.protobuf.UInt64Value;
 import com.tailrocks.example.grpc.v1.payment.method.CreatePaymentMethodRequest;
 import com.tailrocks.example.grpc.v1.payment.method.FindPaymentMethodRequest;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethod;
@@ -58,7 +57,7 @@ public class TailrocksExampleClient {
                 .build());
     }
 
-    public Optional<PaymentMethod> findPaymentMethodByCardNumber(long accountId, @NonNull String cardNumber) {
+    public Optional<PaymentMethod> findPaymentMethodByCardNumber(@NonNull String accountId, @NonNull String cardNumber) {
         return callWithTenant(getTenantString(), () -> paymentMethodServiceBlockingStub
                 .find(
                         FindPaymentMethodRequest.newBuilder()
@@ -72,15 +71,15 @@ public class TailrocksExampleClient {
     }
 
     public PaymentMethod createPaymentMethod(
-            long tailrocksAccountId, @NonNull PaymentMethodCardBrand cardBrand, @NonNull String cardNumber, int cvc,
-            int expirationYear, int expirationMonth, @NonNull String cardHolderName
+            @NonNull String tailrocksAccountId, @NonNull PaymentMethodCardBrand cardBrand, @NonNull String cardNumber,
+            int cvc, int expirationYear, int expirationMonth, @NonNull String cardHolderName
     ) {
         return callWithTenant(getTenantString(), () -> paymentMethodServiceBlockingStub
                 .create(
                         CreatePaymentMethodRequest.newBuilder()
                                 .addItem(
                                         PaymentMethodInput.newBuilder()
-                                                .setAccountId(UInt64Value.of(tailrocksAccountId))
+                                                .setAccountId(StringValue.of(tailrocksAccountId))
                                                 .setCard(
                                                         PaymentMethodCardInput.newBuilder()
                                                                 .setBrand(cardBrand)

@@ -25,7 +25,7 @@ message FindPaymentMethodRequest {
 
   message Criteria {
     // The account id.
-    repeated uint64 account_id = 1;
+    repeated string account_id = 1;
     // The card number.
     repeated string number = 2;
   }
@@ -44,9 +44,8 @@ message CreatePaymentMethodRequest {
 
 message PaymentMethodInput {
   // The account id.
-  google.protobuf.UInt64Value account_id = 1 [
-    (validate.rules).message.required = true,
-    (validate.rules).uint64.gt = 0
+  google.protobuf.StringValue account_id = 1 [
+    (validate.rules).message.required = true
   ];
 
   // The card details.
@@ -102,9 +101,9 @@ message PaymentMethodListResponse {
 
 message PaymentMethod {
   // Unique identifier for the object.
-  uint64 id = 1;
+  string id = 1;
   // The account id.
-  uint64 account_id = 2;
+  string account_id = 2;
   // The card details.
   PaymentMethodCard card = 3;
 }
