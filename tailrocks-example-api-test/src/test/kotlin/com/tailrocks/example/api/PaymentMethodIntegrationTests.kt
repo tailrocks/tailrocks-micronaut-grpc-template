@@ -14,7 +14,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.bson.types.ObjectId
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -38,7 +38,7 @@ class PaymentMethodIntegrationTests(
         private val givenExpirationMonth = 6
         private val givenCardHolderName = "Gary Zub"
 
-        @BeforeEach
+        @BeforeAll
         fun init() {
             val paymentMethod = WHEN_("create a payment method") {
                 tailrocksExampleClient.createPaymentMethod(
