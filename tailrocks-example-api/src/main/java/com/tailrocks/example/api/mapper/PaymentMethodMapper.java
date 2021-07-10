@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 @Mapper(
+        // TODO use MappingConstants.ComponentModel.JSR330
         componentModel = "jsr330",
         injectionStrategy = CONSTRUCTOR,
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,

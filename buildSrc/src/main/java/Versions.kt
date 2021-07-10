@@ -50,7 +50,7 @@ object Versions {
     const val jambalayaChecks = "0.4.0"
     const val jambalayaJunitOpentelemetry = "0.1.1"
     const val jambalayaMapstructProcessor = "0.3.1"
-    const val jambalayaMicronautMapstructProtobuf = "0.3.0"
+    const val jambalayaMicronautMapstructProtobuf = "0.3.1"
     const val jambalayaOpentelemetry = "0.2.0"
     const val jambalayaProtobuf = "0.4.0"
     const val jambalayaTenancy = "0.4.1"
