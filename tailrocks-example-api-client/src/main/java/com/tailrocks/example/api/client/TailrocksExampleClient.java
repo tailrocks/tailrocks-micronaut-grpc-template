@@ -18,9 +18,9 @@ import com.zhokhov.jambalaya.grpc.v1.tenant.ProvisionTenantRequest;
 import com.zhokhov.jambalaya.grpc.v1.tenant.TenantServiceGrpc;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.util.Optional;
 
 import static com.tailrocks.example.api.client.config.Constants.DEFAULT_TENANT;

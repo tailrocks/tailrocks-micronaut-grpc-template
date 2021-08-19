@@ -14,8 +14,8 @@ import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodListResponse;
 import com.tailrocks.example.grpc.v1.payment.method.PaymentMethodServiceGrpc;
 import com.tailrocks.example.jooq.tables.records.PaymentMethodRecord;
 import io.grpc.stub.StreamObserver;
+import jakarta.inject.Singleton;
 
-import javax.inject.Singleton;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

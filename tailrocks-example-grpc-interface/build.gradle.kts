@@ -32,6 +32,9 @@ dependencies {
     api("io.envoyproxy.protoc-gen-validate:pgv-java-stub:${Versions.pgv}")
 
     compileOnly("jakarta.annotation:jakarta.annotation-api")
+
+    // TODO remove me later
+    compileOnly("javax.annotation:javax.annotation-api")
 }
 
 protobuf {

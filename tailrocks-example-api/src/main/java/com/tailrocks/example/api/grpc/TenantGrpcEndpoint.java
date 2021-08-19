@@ -13,9 +13,9 @@ import com.zhokhov.jambalaya.grpc.v1.tenant.TenantStatus;
 import com.zhokhov.jambalaya.tenancy.flyway.TenantFlywayMigrator;
 import io.grpc.stub.StreamObserver;
 import io.micronaut.context.annotation.Property;
+import jakarta.inject.Singleton;
 import org.flywaydb.core.api.FlywayException;
 
-import javax.inject.Singleton;
 import java.sql.SQLException;
 
 @Singleton

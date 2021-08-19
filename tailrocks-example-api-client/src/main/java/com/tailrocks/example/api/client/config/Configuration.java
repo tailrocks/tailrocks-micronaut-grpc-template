@@ -13,9 +13,8 @@ import io.grpc.ManagedChannel;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.grpc.annotation.GrpcChannel;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import static com.tailrocks.example.api.client.config.Constants.GRPC_CHANNEL;
 import static com.tailrocks.example.api.client.config.Constants.TENANT_SERVICE_NAME;

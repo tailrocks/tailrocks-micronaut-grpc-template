@@ -33,7 +33,7 @@ dependencies {
     api("io.micronaut.data:micronaut-data-tx")
 
     // TODO replace with final version
-    api("io.github.expatiat.micronaut.opentelemetry:opentelemetry:0.1.0-SNAPSHOT")
+    api("io.github.expatiat.micronaut.opentelemetry:opentelemetry:0.2.0-SNAPSHOT")
 
     // MapStruct
     annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
@@ -58,4 +58,7 @@ dependencies {
 
     // Logback
     api("ch.qos.logback:logback-classic")
+
+    // TODO remove me later
+    api("javax.inject:javax.inject:1")
 }

@@ -6,10 +6,9 @@ package com.tailrocks.example.api.config;
 
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.jooq.conf.Settings;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 @Factory
 public class JooqConfig {

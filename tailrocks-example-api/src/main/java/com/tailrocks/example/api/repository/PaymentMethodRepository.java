@@ -12,6 +12,7 @@ import com.zhokhov.jambalaya.tenancy.jooq.AbstractTenantRepository;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.transaction.annotation.ReadOnly;
+import jakarta.inject.Singleton;
 import org.bson.types.ObjectId;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
@@ -19,7 +20,6 @@ import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
