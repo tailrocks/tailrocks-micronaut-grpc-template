@@ -22,7 +22,7 @@ object Versions {
     const val gradleShadowPlugin = "7.0.0"
 
     // https://plugins.gradle.org/plugin/io.micronaut.application
-    const val gradleMicronautPlugin = "2.0.3"
+    const val gradleMicronautPlugin = "2.0.8"
 
     // Libraries
 
