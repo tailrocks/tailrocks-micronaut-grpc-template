@@ -38,7 +38,7 @@ object Versions {
     const val mapstruct = "1.4.2.Final"
     const val pgv = "0.4.1"
     const val bson = "4.2.3"
-    const val kotest = "4.6.0"
+    const val kotest = "4.6.4"
 
     const val jambalayaChecks = "0.4.0"
     const val jambalayaJunitOpentelemetry = "0.1.1"
