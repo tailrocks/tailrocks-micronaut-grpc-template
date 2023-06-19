@@ -40,7 +40,7 @@ object Versions {
     const val bson = "4.2.3"
     const val kotest = "4.6.0"
 
-    const val jambalayaChecks = "0.4.0"
+    const val jambalayaChecks = "0.6.0"
     const val jambalayaJunitOpentelemetry = "0.1.1"
     const val jambalayaMapstructProcessor = "0.3.1"
     const val jambalayaMicronautMapstructProtobuf = "0.3.1"
