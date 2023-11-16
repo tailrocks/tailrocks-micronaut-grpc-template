@@ -32,7 +32,7 @@ object Versions {
     // UPDATE together with Micronaut
     // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/3.0.0/micronaut-bom-3.0.0.pom
     const val grpc = "1.38.0"
-    const val protobuf = "3.17.2"
+    const val protobuf = "3.25.1"
     // end
 
     const val mapstruct = "1.4.2.Final"
